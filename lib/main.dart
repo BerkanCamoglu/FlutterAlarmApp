@@ -29,9 +29,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//TODO:
 /*
-  Tüm alarmların listeleneceği bir ana sayfa yapılacak
-  Alarm ekleme sayfası oluşturulacak
-  Vakti gelen alarmı kapatıcağımız bir sayfa oluşturulacak
+git add .
+git commit -m "<your commit is here>"
+git push origin <branchName>
  */

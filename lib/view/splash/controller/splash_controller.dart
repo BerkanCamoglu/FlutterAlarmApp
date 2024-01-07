@@ -17,7 +17,7 @@ class SplashController extends GetxController {
       () async {
         bool hasConnection = await InternetConnectionChecker().hasConnection;
         if (hasConnection == true) {
-          Get.offNamed(RouteService.home);
+          Get.offNamed(RouteService.app);
         } else {
           Get.offNamed(RouteService.error);
         }

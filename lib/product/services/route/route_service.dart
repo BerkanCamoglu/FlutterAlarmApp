@@ -1,4 +1,5 @@
-import 'package:flutteralarmapp/view/app/home/home_view.dart';
+import 'package:flutteralarmapp/view/app/app_controller.dart';
+import 'package:flutteralarmapp/view/app/app_main.dart';
 import 'package:flutteralarmapp/view/splash/controller/splash_controller.dart';
 import 'package:flutteralarmapp/view/splash/error_view.dart';
 import 'package:flutteralarmapp/view/splash/view/splash_view.dart';
@@ -16,8 +17,9 @@ class RouteService {
       page: () => const ErrorView(),
     ),
     GetPage(
-      name: home,
-      page: () => const HomeView(),
+      name: app,
+      page: () => const AppMain(),
+      binding: AppBinding(),
     ),
   ];
 
@@ -27,6 +29,6 @@ class RouteService {
   static String error = "/error";
   static String getErrorRoute() => error;
 
-  static String home = "/home";
-  static String getHomeRoute() => home;
+  static String app = "/app";
+  static String getHomeRoute() => app;
 }
