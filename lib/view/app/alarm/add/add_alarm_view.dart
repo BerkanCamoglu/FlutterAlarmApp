@@ -37,10 +37,10 @@ class AddAlarmView extends StatelessWidget {
               child: MaterialButton(
                 onPressed: () => controller.selectDate(),
                 child: controller.selectedDate == null
-                    ? Text("Tarih Seç")
+                    ? const Text("Tarih Seç")
                     : Text(
                         'Seçilen Tarih: ${controller.selectedDate!.toIso8601String().split('T')[0]}',
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ),
               ),
             ),
@@ -57,10 +57,10 @@ class AddAlarmView extends StatelessWidget {
               child: MaterialButton(
                 onPressed: () => controller.selectTime(),
                 child: controller.selectedTime == null
-                    ? Text("Saati Seçiniz")
+                    ? const Text("Saati Seçiniz")
                     : Text(
                         'Seçilen Tarih: ${controller.selectedTime!.format(context)}',
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ),
               ),
             ),
@@ -119,7 +119,7 @@ class AddAlarmView extends StatelessWidget {
                 onPressed: () {
                   controller.saveRingtone();
                 },
-                child: Text(
+                child: const Text(
                   "Kaydet",
                   style: TextStyle(
                     color: Colors.white,

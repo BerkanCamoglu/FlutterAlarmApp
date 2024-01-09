@@ -1,41 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:flutteralarmapp/view/app/home/home_controller.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      children: [
-        SizedBox(
-          child: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 15,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 1.0,
-                    ),
-                    borderRadius: BorderRadius.circular(20.0),
-                    color: Colors.yellow,
-                  ),
-                  child: ListTile(
-                    title: Text('Alarm ${index + 1}'),
-                    subtitle: const Text('Kurulan Saat: 08:00'),
-                    trailing: const Text('Kalan Süre: 2 saat'),
-                  ),
-                ),
+    return GetBuilder<HomeController>(
+      initState: (state) {
+        state.controller ?? Get.find<HomeController>();
+        state.controller?.onInit();
+      },
+      builder: (controller) {
+        return buildBody(controller);
+      },
+    );
+  }
+
+  Widget buildBody(HomeController controller) {
+    return RefreshIndicator(
+      onRefresh: () => controller.onRefresh(),
+      child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: [
+          Obx(() {
+            if (controller.isLoading.isTrue) {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
-            },
-          ),
-        ),
-      ],
+            }
+            return ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: controller.alarms.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Colors.yellow,
+                    ),
+                    child: ListTile(
+                      onTap: () async {
+                        await controller.service.showScheduledNotification(
+                          id: 0,
+                          title: 'Notification Title',
+                          body: 'Some body 2',
+                          seconds: 2,
+                        );
+                      },
+                      title: Text('${controller.alarms[index].title}'),
+                      trailing: Text(
+                        DateFormat("dd-MM-yyyy")
+                            .format(controller.alarms[index].dateTime!),
+                      ),
+                      subtitle: Text(
+                        "Alarmınızın Süresine ${controller.alarms[index].dateTime!.difference(DateTime.now()).inMinutes} dakika kaldı",
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          }),
+        ],
+      ),
     );
   }
 }

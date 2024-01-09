@@ -1,14 +1,18 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_system_ringtones/flutter_system_ringtones.dart';
 import 'package:flutteralarmapp/core/extensions/context_extension.dart';
 import 'package:flutteralarmapp/product/models/alarm_model.dart';
 import 'package:flutteralarmapp/product/services/database/alarm_database_provider.dart';
-import 'package:flutteralarmapp/product/services/route/route_service.dart';
 import 'package:flutteralarmapp/view/app/app_controller.dart';
 import 'package:flutteralarmapp/view/app/app_main.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/timezone.dart';
 
 class AddAlarmViewBinding extends Bindings {
   @override
@@ -82,7 +86,7 @@ class AddAlarmViewController extends GetxController {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: MaterialButton(
-                child: Text('Kaydet'),
+                child: const Text('Kaydet'),
                 onPressed: () async {
                   await stopRingtone();
                   Get.back();
@@ -140,6 +144,35 @@ class AddAlarmViewController extends GetxController {
       date.day,
       time.hour,
       time.minute - notificationMinutes,
+    );
+  }
+
+  Future<void> scheduleFutureNotification(DateTime scheduledDate) async {
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'alarm_channel_id', // Kanal ID, benzersiz bir şekilde adlandırılmalıdır.
+      'Alarm Kanalı', // Kanal adı
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    // Bildirimi zamanlanmış bir şekilde gönder
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      0, // Bildirim ID'si, benzersiz bir şekilde atanmalıdır.
+      'Alarm Başlığı', // Bildirim başlığı
+      'Alarm İçeriği', // Bildirim içeriği
+      TZDateTime.from(
+          scheduledDate, tz.local), // Bildirimin gönderileceği tarih ve saat
+      platformChannelSpecifics,
+      payload: 'custom_sound',
+      androidScheduleMode: AndroidScheduleMode.alarmClock,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
 }

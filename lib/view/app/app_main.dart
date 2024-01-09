@@ -44,7 +44,7 @@ class AppMain extends StatelessWidget {
             currentIndex: controller.index.value,
             onTap: controller.onItemTapped,
             selectedItemColor: Colors.blue[900],
-            unselectedItemColor: Colors.yellow,
+            unselectedItemColor: Colors.blue,
             type: BottomNavigationBarType.fixed,
           ),
           floatingActionButton: FloatingActionButton(

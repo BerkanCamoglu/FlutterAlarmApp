@@ -15,12 +15,14 @@ class SplashController extends GetxController {
     Future.delayed(
       const Duration(microseconds: 1),
       () async {
-        bool hasConnection = await InternetConnectionChecker().hasConnection;
+        /* bool hasConnection = await InternetConnectionChecker().hasConnection;
         if (hasConnection == true) {
           Get.offNamed(RouteService.app);
         } else {
           Get.offNamed(RouteService.error);
-        }
+          
+        } */
+        Get.offNamed(RouteService.app);
       },
     );
     super.onInit();

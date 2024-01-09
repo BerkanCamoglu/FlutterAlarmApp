@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutteralarmapp/view/app/alarm/alarm_view_controller.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class AlarmView extends StatelessWidget {
   const AlarmView({super.key});
@@ -45,8 +46,11 @@ class AlarmView extends StatelessWidget {
                     color: Colors.yellow,
                   ),
                   child: ListTile(
-                    title: Text('Alarm ${controller.alarms[index].id}'),
-                    subtitle: Text("${controller.alarms[index].title}"),
+                    title: Text('${controller.alarms[index].title}'),
+                    subtitle: Text(
+                      DateFormat("dd-MM-yyyy HH:mm")
+                          .format(controller.alarms[index].dateTime!),
+                    ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
