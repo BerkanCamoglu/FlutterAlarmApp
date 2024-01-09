@@ -1,56 +1,80 @@
 import 'package:flutter/material.dart';
+import 'package:flutteralarmapp/view/app/alarm/alarm_view_controller.dart';
+import 'package:get/get.dart';
 
 class AlarmView extends StatelessWidget {
   const AlarmView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return GetBuilder<AlarmViewController>(
+      initState: (state) {
+        state.controller ?? Get.find<AlarmViewController>();
+        state.controller?.onInit();
+      },
+      builder: (controller) {
+        return buildBody(controller);
+      },
+    );
+  }
+
+  ListView buildBody(AlarmViewController controller) {
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
       children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: 20,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(20.0),
-                  color: Colors.yellow,
-                ),
-                child: ListTile(
-                  title: Text('Alarm ${index + 1}'),
-                  subtitle: const Text('Kurulan Saat: 08:00'),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.edit,
-                          color: Colors.blue[900],
-                        ),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.delete,
-                          color: Colors.blue[900],
-                        ),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+        Obx(() {
+          if (controller.isLoading.isTrue) {
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          },
-        ),
+          }
+          return ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: controller.alarms.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 1.0,
+                    ),
+                    borderRadius: BorderRadius.circular(20.0),
+                    color: Colors.yellow,
+                  ),
+                  child: ListTile(
+                    title: Text('Alarm ${controller.alarms[index].id}'),
+                    subtitle: Text("${controller.alarms[index].title}"),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: Colors.blue[900],
+                          ),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.blue[900],
+                          ),
+                          onPressed: () {
+                            var alarm = controller.alarms[index];
+                            controller.deleteAlarm(alarm);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        }),
       ],
     );
   }

@@ -4,11 +4,15 @@ class AlarmModel extends DatabaseModel<AlarmModel> {
   int? id;
   DateTime? dateTime;
   String? title;
+  String? ringtoneTitle;
+  String? ringtonePath;
 
   AlarmModel({
     this.id,
     this.dateTime,
     this.title,
+    this.ringtoneTitle,
+    this.ringtonePath,
   });
 
   AlarmModel.fromJson(Map<String, dynamic> json) {
@@ -25,6 +29,8 @@ class AlarmModel extends DatabaseModel<AlarmModel> {
     data['dateTime'] =
         dateTime?.toIso8601String(); // Convert DateTime to string
     data['title'] = title;
+    data['ringtoneTitle'] = ringtoneTitle;
+    data['ringtonePath'] = ringtonePath;
     return data;
   }
 

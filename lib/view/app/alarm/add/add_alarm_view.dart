@@ -24,8 +24,7 @@ class AddAlarmView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: ListView(
           children: [
             Container(
               width: 360.w,
@@ -86,7 +85,7 @@ class AddAlarmView extends StatelessWidget {
             ),
             const SizedBox(height: 16.0),
             TextField(
-              onChanged: (value) => controller.onDescriptionChanged(value),
+              onChanged: (value) => controller.onAlarmTitleChanged(value),
               decoration: const InputDecoration(
                 labelText: 'Açıklama',
                 border: OutlineInputBorder(),
@@ -107,6 +106,26 @@ class AddAlarmView extends StatelessWidget {
               ),
               onChanged: (int? value) =>
                   controller.onNotificationMinutesChanged(value),
+            ),
+            const SizedBox(height: 32.0),
+            Container(
+              width: 360.w,
+              height: 60.h,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: MaterialButton(
+                onPressed: () {
+                  controller.saveRingtone();
+                },
+                child: Text(
+                  "Kaydet",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

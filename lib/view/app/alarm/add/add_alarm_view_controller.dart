@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_system_ringtones/flutter_system_ringtones.dart';
 import 'package:flutteralarmapp/core/extensions/context_extension.dart';
+import 'package:flutteralarmapp/product/models/alarm_model.dart';
+import 'package:flutteralarmapp/product/services/database/alarm_database_provider.dart';
+import 'package:flutteralarmapp/product/services/route/route_service.dart';
+import 'package:flutteralarmapp/view/app/app_controller.dart';
+import 'package:flutteralarmapp/view/app/app_main.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -15,9 +20,13 @@ class AddAlarmViewBinding extends Bindings {
 class AddAlarmViewController extends GetxController {
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
-  String alarmDescription = '';
+  String alarmTitle = '';
   int notificationMinutes = 5;
   final AudioPlayer audioPlayer = AudioPlayer();
+  RxString selectedRingtone = ''.obs;
+  RxString selectedRingtonePath = ''.obs;
+
+  final AlarmDatabaseProvider database = AlarmDatabaseProvider.instance;
 
   Future<void> selectDate() async {
     final DateTime? pickedDate = await showDatePicker(
@@ -45,8 +54,8 @@ class AddAlarmViewController extends GetxController {
     }
   }
 
-  void onDescriptionChanged(String value) {
-    alarmDescription = value;
+  void onAlarmTitleChanged(String value) {
+    alarmTitle = value;
   }
 
   void onNotificationMinutesChanged(int? value) {
@@ -54,8 +63,6 @@ class AddAlarmViewController extends GetxController {
       notificationMinutes = value;
     }
   }
-
-  RxString selectedRingtone = ''.obs;
 
   Future<void> pickRingtone(BuildContext context) async {
     var ringtones = await FlutterSystemRingtones.getRingtoneSounds();
@@ -82,13 +89,14 @@ class AddAlarmViewController extends GetxController {
                 },
               ),
             ),
-            Divider(),
+            const Divider(),
             ...ringtones.map((Ringtone ringtone) {
               return ListTile(
                 title: Text(ringtone.title),
                 onTap: () async {
                   await playRingtone(ringtone.uri);
                   selectedRingtone.value = ringtone.title;
+                  selectedRingtonePath.value = ringtone.uri;
                 },
               );
             }).toList(),
@@ -111,7 +119,27 @@ class AddAlarmViewController extends GetxController {
   }
 
   Future<void> saveRingtone() async {
-    // Seçilen zil sesini burada kaydetme işlemlerini gerçekleştirin.
-    // Örneğin, tercih edilen veritabanına, Shared Preferences'e vb. kaydedebilirsiniz.
+    var entity = AlarmModel(
+      title: alarmTitle,
+      ringtoneTitle: selectedRingtone.value,
+      ringtonePath: selectedRingtonePath.value,
+      dateTime: combineDateAndTime(selectedDate!, selectedTime!),
+    );
+    await database.add(entity);
+    Get.offAll(
+      () => const AppMain(),
+      binding: AppBinding(),
+      transition: Transition.zoom,
+    );
+  }
+
+  DateTime combineDateAndTime(DateTime date, TimeOfDay time) {
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute - notificationMinutes,
+    );
   }
 }

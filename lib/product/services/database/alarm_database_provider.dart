@@ -17,6 +17,8 @@ class AlarmDatabaseProvider extends DatabaseProvider<AlarmModel> {
   String _columnId = "id";
   String _columnDatetime = "dateTime";
   String _columnTitle = "title";
+  String _columnRingtoneTitle = "ringtoneTitle";
+  String _columnRingtonePath = "ringtonePath";
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -38,7 +40,9 @@ class AlarmDatabaseProvider extends DatabaseProvider<AlarmModel> {
       '''CREATE TABLE $_alarmTableName (
       $_columnId INTEGER PRIMARY KEY AUTOINCREMENT, 
       $_columnDatetime DATETIME,
-      $_columnTitle CHAR(45)
+      $_columnTitle CHAR(45),
+      $_columnRingtoneTitle CHAR(45),
+      $_columnRingtonePath CHAR(45)
     )
     ''',
     );
