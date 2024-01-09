@@ -1,4 +1,5 @@
 import 'package:flutteralarmapp/view/app/alarm/add/add_alarm_view.dart';
+import 'package:flutteralarmapp/view/app/alarm/add/add_alarm_view_controller.dart';
 import 'package:flutteralarmapp/view/app/alarm/alarm_view.dart';
 import 'package:flutteralarmapp/view/app/home/home_view.dart';
 import 'package:get/get.dart';
@@ -25,6 +26,7 @@ class AppController extends GetxController {
   void navigateAddAlarm() {
     Get.to(
       () => const AddAlarmView(),
+      binding: AddAlarmViewBinding(),
       transition: Transition.downToUp,
     );
   }

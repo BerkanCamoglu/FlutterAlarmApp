@@ -1,51 +1,23 @@
-// ignore_for_file: file_names, library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutteralarmapp/view/app/alarm/add/add_alarm_view_controller.dart';
+import 'package:get/get.dart';
 
-class AddAlarmView extends StatefulWidget {
-  const AddAlarmView({super.key});
-
-  @override
-  _AddAlarmViewState createState() => _AddAlarmViewState();
-}
-
-class _AddAlarmViewState extends State<AddAlarmView> {
-  DateTime? selectedDate;
-  TimeOfDay? selectedTime;
-  String selectedRingtone = 'Default Ringtone';
-  String alarmDescription = '';
-  int notificationMinutes = 5;
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2101),
-    );
-
-    if (pickedDate != null && pickedDate != selectedDate) {
-      setState(() {
-        selectedDate = pickedDate;
-      });
-    }
-  }
-
-  Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: selectedTime ?? TimeOfDay.now(),
-    );
-
-    if (pickedTime != null && pickedTime != selectedTime) {
-      setState(() {
-        selectedTime = pickedTime;
-      });
-    }
-  }
+class AddAlarmView extends StatelessWidget {
+  const AddAlarmView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    return GetBuilder<AddAlarmViewController>(
+      init: AddAlarmViewController(),
+      builder: (controller) {
+        return buildScaffold(context, controller);
+      },
+    );
+  }
+
+  Scaffold buildScaffold(
+      BuildContext context, AddAlarmViewController controller) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Alarm Ekle'),
@@ -53,48 +25,68 @@ class _AddAlarmViewState extends State<AddAlarmView> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Center(
-              child: ElevatedButton(
-                onPressed: () => _selectDate(context),
-                child: const Text('Tarih Seç'),
+            Container(
+              width: 360.w,
+              height: 60.h,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(),
+              ),
+              child: MaterialButton(
+                onPressed: () => controller.selectDate(),
+                child: controller.selectedDate == null
+                    ? Text("Tarih Seç")
+                    : Text(
+                        'Seçilen Tarih: ${controller.selectedDate!.toIso8601String().split('T')[0]}',
+                        style: TextStyle(fontSize: 16),
+                      ),
               ),
             ),
             const SizedBox(height: 16.0),
-            Center(
-              child: ElevatedButton(
-                onPressed: () => _selectTime(context),
-                child: const Text('Saat Seç'),
+            const SizedBox(height: 16.0),
+            Container(
+              width: 360.w,
+              height: 60.h,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(),
+              ),
+              child: MaterialButton(
+                onPressed: () => controller.selectTime(),
+                child: controller.selectedTime == null
+                    ? Text("Saati Seçiniz")
+                    : Text(
+                        'Seçilen Tarih: ${controller.selectedTime!.format(context)}',
+                        style: TextStyle(fontSize: 16),
+                      ),
               ),
             ),
             const SizedBox(height: 16.0),
-            DropdownButtonFormField(
-              value: selectedRingtone,
-              items:
-                  ['Default Ringtone', 'Ringtone 1', 'Ringtone 2', 'Ringtone 3']
-                      .map((ringtone) => DropdownMenuItem(
-                            value: ringtone,
-                            child: Text(ringtone),
-                          ))
-                      .toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedRingtone = value as String;
-                });
-              },
-              decoration: const InputDecoration(
-                labelText: 'Zil Sesi',
-                border: OutlineInputBorder(),
+            Container(
+              width: 360.w,
+              height: 60.h,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(),
+              ),
+              child: MaterialButton(
+                onPressed: () {
+                  controller.pickRingtone(context);
+                },
+                child: controller.selectedRingtone.value.isEmpty
+                    ? const Text('Zil Sesi Seç')
+                    : Obx(() => Text(
+                        'Selected Ringtone: ${controller.selectedRingtone}')),
               ),
             ),
             const SizedBox(height: 16.0),
             TextField(
-              onChanged: (value) {
-                setState(() {
-                  alarmDescription = value;
-                });
-              },
+              onChanged: (value) => controller.onDescriptionChanged(value),
               decoration: const InputDecoration(
                 labelText: 'Açıklama',
                 border: OutlineInputBorder(),
@@ -102,22 +94,19 @@ class _AddAlarmViewState extends State<AddAlarmView> {
             ),
             const SizedBox(height: 16.0),
             DropdownButtonFormField(
-              value: notificationMinutes,
               items: [5, 10, 15, 30, 60]
                   .map((minutes) => DropdownMenuItem(
                         value: minutes,
                         child: Text('$minutes Dakika Önce'),
                       ))
                   .toList(),
-              onChanged: (value) {
-                setState(() {
-                  notificationMinutes = value as int;
-                });
-              },
+              value: controller.notificationMinutes,
               decoration: const InputDecoration(
                 labelText: 'Bildirim Süresi',
                 border: OutlineInputBorder(),
               ),
+              onChanged: (int? value) =>
+                  controller.onNotificationMinutesChanged(value),
             ),
           ],
         ),

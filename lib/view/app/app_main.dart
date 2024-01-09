@@ -25,9 +25,11 @@ class AppMain extends StatelessWidget {
             ),
             backgroundColor: Colors.blue[900],
           ),
-          body: Obx(() {
-            return controller.screens[controller.index.value];
-          }),
+          body: Obx(
+            () {
+              return controller.screens[controller.index.value];
+            },
+          ),
           bottomNavigationBar: BottomNavigationBar(
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
