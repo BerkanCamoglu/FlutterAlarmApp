@@ -1,8 +1,9 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:flutteralarmapp/product/services/notification/notification_service.dart';
 import 'package:flutteralarmapp/view/app/home/home_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:path/path.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -49,14 +50,7 @@ class HomeView extends StatelessWidget {
                       color: Colors.yellow,
                     ),
                     child: ListTile(
-                      onTap: () async {
-                        await controller.service.showScheduledNotification(
-                          id: 0,
-                          title: 'Notification Title',
-                          body: 'Some body 2',
-                          seconds: 2,
-                        );
-                      },
+                      onTap: () {},
                       title: Text('${controller.alarms[index].title}'),
                       trailing: Text(
                         DateFormat("dd-MM-yyyy")

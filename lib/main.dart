@@ -12,6 +12,8 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
+          navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           initialRoute: RouteService.getSplashRoute(),
           getPages: RouteService.routes,
