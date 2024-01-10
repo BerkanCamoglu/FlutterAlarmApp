@@ -1,9 +1,11 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutteralarmapp/product/services/notification/notification_service.dart';
+import 'package:flutteralarmapp/view/app/alarm/show/show_alarm_view.dart';
 import 'package:flutteralarmapp/view/app/home/home_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -33,6 +35,10 @@ class HomeView extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             }
+            if (controller.alarms.isEmpty) {
+              return Center(child: Text("Yaklaşan Alarmınız yok."));
+            }
+
             return ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -50,14 +56,21 @@ class HomeView extends StatelessWidget {
                       color: Colors.yellow,
                     ),
                     child: ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => const ShowAlarmView());
+                      },
                       title: Text('${controller.alarms[index].title}'),
                       trailing: Text(
                         DateFormat("dd-MM-yyyy")
                             .format(controller.alarms[index].dateTime!),
                       ),
                       subtitle: Text(
-                        "Alarmınızın Süresine ${controller.alarms[index].dateTime!.difference(DateTime.now()).inMinutes} dakika kaldı",
+                        controller.alarms[index].dateTime!
+                                    .difference(DateTime.now())
+                                    .inMinutes <
+                                0
+                            ? "Alarmınızın süresi geçti"
+                            : "Alarmınızın Süresine ${controller.alarms[index].dateTime!.difference(DateTime.now()).inMinutes} dakika kaldı",
                       ),
                     ),
                   ),

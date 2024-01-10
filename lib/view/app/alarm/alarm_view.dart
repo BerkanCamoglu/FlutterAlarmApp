@@ -29,6 +29,10 @@ class AlarmView extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+          if (controller.alarms.isEmpty) {
+            return Center(child: Text("Şuanda hiç alarmınız yok"));
+          }
+
           return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,

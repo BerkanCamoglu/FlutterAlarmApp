@@ -1,7 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutteralarmapp/main.dart';
-import 'package:flutteralarmapp/view/second_screen.dart';
+import 'package:flutteralarmapp/view/app/alarm/show/show_alarm_view.dart';
 
 class NotificationService {
   static Future<void> initializeNotification() async {
@@ -73,7 +73,7 @@ class NotificationService {
     if (payload["navigate"] == "true") {
       MyApp.navigatorKey.currentState?.push(
         MaterialPageRoute(
-          builder: (_) => const SecondScreen(),
+          builder: (_) => const ShowAlarmView(),
         ),
       );
     }
