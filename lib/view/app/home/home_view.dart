@@ -1,5 +1,5 @@
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutteralarmapp/view/app/alarm/show/show_alarm_view.dart';
 import 'package:flutteralarmapp/view/app/home/home_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -55,13 +55,7 @@ class HomeView extends StatelessWidget {
                     ),
                     child: ListTile(
                       onTap: () async {
-                        //Get.to(() => const ShowAlarmView());
-                        var durum = await AndroidAlarmManager.oneShot(
-                          const Duration(seconds: 5),
-                          alarm.id!,
-                          fireAlarm,
-                        );
-                        print(durum);
+                        Get.to(() => const ShowAlarmView());
                       },
                       title: Text('${alarm.title}'),
                       trailing: Text(
@@ -82,8 +76,4 @@ class HomeView extends StatelessWidget {
       ),
     );
   }
-}
-
-void fireAlarm() {
-  print('Alarm Fired at ${DateTime.now()}');
 }

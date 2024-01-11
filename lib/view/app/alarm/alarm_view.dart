@@ -38,6 +38,8 @@ class AlarmView extends StatelessWidget {
             shrinkWrap: true,
             itemCount: controller.alarms.length,
             itemBuilder: (context, index) {
+              var alarm = controller.alarms[index];
+
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -50,10 +52,9 @@ class AlarmView extends StatelessWidget {
                     color: Colors.yellow,
                   ),
                   child: ListTile(
-                    title: Text('${controller.alarms[index].title}'),
+                    title: Text('${alarm.title}'),
                     subtitle: Text(
-                      DateFormat("dd-MM-yyyy HH:mm")
-                          .format(controller.alarms[index].dateTime!),
+                      DateFormat("dd-MM-yyyy HH:mm").format(alarm.dateTime!),
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -63,7 +64,9 @@ class AlarmView extends StatelessWidget {
                             Icons.edit,
                             color: Colors.blue[900],
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            controller.showEditAlertDialog(alarm);
+                          },
                         ),
                         IconButton(
                           icon: Icon(

@@ -9,16 +9,16 @@ class LocalStorage {
 
   static void clearService() => _preferences.clear();
 
-  static const String _kToken = 'token';
-  static Future setToken(String userName) async {
+  static const String _kToken = 'filePath';
+  static Future setFilePath(String userName) async {
     await _preferences.setString(_kToken, userName);
   }
 
-  static bool isSignIn() {
-    return _preferences.containsKey(_kToken);
+  static Future<String> getFilePath() async {
+    return _preferences.getString(_kToken).toString();
   }
 
-  static void clearToken() {
+  static void clearFilePath() {
     _preferences.remove("token");
   }
 }

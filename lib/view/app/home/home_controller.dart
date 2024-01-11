@@ -36,6 +36,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     getAlarm();
+
     super.onInit();
   }
 

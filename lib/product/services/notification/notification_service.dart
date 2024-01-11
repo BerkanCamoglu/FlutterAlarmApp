@@ -1,7 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:flutteralarmapp/main.dart';
 import 'package:flutteralarmapp/view/app/alarm/show/show_alarm_view.dart';
+import 'package:get/get.dart';
 
 class NotificationService {
   static Future<void> initializeNotification() async {
@@ -71,11 +71,7 @@ class NotificationService {
     debugPrint('onActionReceivedMethod');
     final payload = receivedAction.payload ?? {};
     if (payload["navigate"] == "true") {
-      MyApp.navigatorKey.currentState?.push(
-        MaterialPageRoute(
-          builder: (_) => const ShowAlarmView(),
-        ),
-      );
+      Get.to(() => const ShowAlarmView());
     }
   }
 

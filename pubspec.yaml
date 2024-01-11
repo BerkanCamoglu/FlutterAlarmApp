@@ -28,6 +28,7 @@ dependencies:
   rxdart: ^0.27.7
   awesome_notifications: ^0.9.0
   android_alarm_manager_plus: ^3.0.4
+  sensors_plus: ^4.0.2
 
 dev_dependencies:
   flutter_test:
