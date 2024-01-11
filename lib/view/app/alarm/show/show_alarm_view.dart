@@ -43,7 +43,6 @@ class _ShowAlarmViewState extends State<ShowAlarmView> {
         child: Column(
           children: [
             const Spacer(),
-            // Alarm Logosu
             Image.asset(
               'assets/image/alarm_logo.png',
               width: 200.w,

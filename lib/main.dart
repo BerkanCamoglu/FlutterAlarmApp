@@ -35,6 +35,6 @@ class MyApp extends StatelessWidget {
 /*
 git add .
 git commit -m "<your commit is here>"
-git push origin <branchName>
+git push origin <branchName> main
  */
 //

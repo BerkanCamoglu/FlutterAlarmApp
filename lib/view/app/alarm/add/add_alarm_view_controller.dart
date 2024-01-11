@@ -46,7 +46,7 @@ class AddAlarmViewController extends GetxController {
 
     if (pickedDate != null && pickedDate != selectedDate) {
       selectedDate = pickedDate;
-      update(); // Widget'ı güncellemek için
+      update();
     }
   }
 
@@ -58,7 +58,7 @@ class AddAlarmViewController extends GetxController {
 
     if (pickedTime != null && pickedTime != selectedTime) {
       selectedTime = pickedTime;
-      update(); // Widget'ı güncellemek için
+      update();
     }
   }
 
@@ -145,7 +145,7 @@ class AddAlarmViewController extends GetxController {
 
     await NotificationService.showNotification(
       title: alarmTitle,
-      body: "Alarmınzınız Çalışıyor.",
+      body: "Alarmınzınız Çalıyor.",
       scheduled: true,
       interval: entity.dateTime!.difference(DateTime.now()).inSeconds,
       payload: {

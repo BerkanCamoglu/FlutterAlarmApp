@@ -78,9 +78,7 @@ class AlarmViewController extends GetxController {
       ),
       textCancel: "İptal",
       textConfirm: "Kaydet",
-      onCancel: () {
-        // İptal butonuna tıklanınca yapılacak işlemler
-      },
+      onCancel: () {},
       onConfirm: () {
         alarm.title = titleController.text;
         alarm.dateTime = selectedDate == null || selectedTime == null
@@ -101,7 +99,7 @@ class AlarmViewController extends GetxController {
 
     if (pickedTime != null && pickedTime != selectedTime) {
       selectedTime = pickedTime;
-      update(); // Widget'ı güncellemek için
+      update();
     }
   }
 
@@ -115,7 +113,7 @@ class AlarmViewController extends GetxController {
 
     if (pickedDate != null && pickedDate != selectedDate) {
       selectedDate = pickedDate;
-      update(); // Widget'ı güncellemek için
+      update();
     }
   }
 

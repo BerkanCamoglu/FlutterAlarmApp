@@ -1,5 +1,6 @@
 import 'package:flutteralarmapp/product/services/route/route_service.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class SplashBinding extends Bindings {
   @override
@@ -14,12 +15,12 @@ class SplashController extends GetxController {
     Future.delayed(
       const Duration(microseconds: 1),
       () async {
-        /* bool hasConnection = await InternetConnectionChecker().hasConnection;
+        bool hasConnection = await InternetConnectionChecker().hasConnection;
         if (hasConnection == true) {
           Get.offNamed(RouteService.app);
         } else {
           Get.offNamed(RouteService.error);
-        } */
+        }
 
         Get.offNamed(RouteService.app);
       },
