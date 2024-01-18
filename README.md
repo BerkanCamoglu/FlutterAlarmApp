@@ -1,16 +1,7 @@
-# flutteralarmapp
+# Flutter Alarm App
 
-A new Flutter project.
-
+![Uİ](https://github.com/brknncmoglu/FlutterAlarmApp/assets/44003640/c9701a1c-49fa-4701-af7b-de704af773cf)
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+With this application, you can plan your special days, business meetings, and important tasks by setting an alarm. It will inform you 5 minutes before the alarm time, and to turn off the alarm, all you need to do is shake the device.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
